@@ -30,10 +30,8 @@ def listar_aluno_por_faixas(faixa: str) -> list:
     conn.close()
     return resultados
 
-def atualizar_perfil():
+def atualizar_perfil(operar, alvo):
     """Esta função atualiza informações de perfis existentes."""
-    operar = input('O que deseja atualizar? [Nome/Nascimento/Faixa]').upper()
-    alvo = int(input('De que índice? '))
     if operar == 'NOME':
         nome_update = input('Insira o novo nome: ').title()
         cursor, conn = abrir_conexao_db()

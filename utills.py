@@ -8,7 +8,7 @@ def abrir_conexao_db():
 def create_aluno(nome: str, nascimento: int, faixa: str):
     """Esta função cria perfis de acordo com os parâmetros passados."""
     cursor, conn = abrir_conexao_db()
-    novo_item = (nome, nascimento, faixa)  # Substitua 'Novo Item' e 100 pelos valores que deseja inserir
+    novo_item = (nome, nascimento, faixa)
     cursor.execute('INSERT INTO aluno (name, data_birth, belt) VALUES (?, ?, ?)', novo_item)
     conn.commit()
     conn.close()
@@ -33,17 +33,11 @@ def listar_aluno_por_faixas(faixa: str) -> list:
 def atualizar_perfil():
     """Esta função atualiza informações de perfis existentes."""
     operar = input('O que deseja atualizar? [Nome/Nascimento/Faixa]').upper()
-    alvo = input('De quem? ').title()
+    alvo = int(input('De que índice? '))
     if operar == 'NOME':
         nome_update = input('Insira o novo nome: ').title()
         cursor, conn = abrir_conexao_db()
-        atualizacao = nome_update
-        cursor.execute(f'UPDATE aluno SET name = {atualizacao} WHERE nome = {alvo}', atualizacao)
+        update = alvo, nome_update
+        cursor.execute(f'UPDATE aluno SET name = ? WHERE pk = ?', update)
     conn.close()
     return 'Aluno atualizado!'
-
-alunos = listar_alunos()
-print(alunos)
-print('-' * 15)
-atualizar_perfil()
-alunos1 = listar_alunos()

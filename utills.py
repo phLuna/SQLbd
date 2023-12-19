@@ -46,8 +46,7 @@ def deletar_perfil(alvo):
     """Deleta perfis da tabela."""
     conn = sqlite3.connect('teste.db')
     cursor = conn.cursor()
-    item_a_deletar = (alvo,)
-    cursor.execute('DELETE FROM aluno WHERE nome = ?', item_a_deletar)
+    cursor.execute('DELETE from aluno WHERE pk = ?', alvo)
     conn.commit()
     conn.close()
     return 'Perfil deletado!'

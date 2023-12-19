@@ -23,8 +23,9 @@ def atualizar_completamente(item: str, nome: str):
     return {'response': f"Este é meu item, {nome}, {item}"}
 
 @app.delete("/items/")
-def deletar_perfil(item: str, nome: str):
-    return {'response': f"Este é meu item, {nome}, {item}"}
+def deletar_perfil(alvo):
+    utills.deletar_perfil(alvo)
+    return {'response': f"O cuja PK é {alvo} foi deletado com sucesso!"}
 
 if __name__ == '__main__':
     uvicorn.run(app)

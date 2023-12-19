@@ -32,10 +32,22 @@ def listar_aluno_por_faixas(faixa: str) -> list:
 
 def atualizar_perfil(operar, alvo):
     """Esta função atualiza informações de perfis existentes."""
+    conn = sqlite3.connect('teste.db')
+    cursor = conn.cursor()
     if operar == 'NOME':
         nome_update = input('Insira o novo nome: ').title()
-        cursor, conn = abrir_conexao_db()
         update = alvo, nome_update
         cursor.execute(f'UPDATE aluno SET name = ? WHERE pk = ?', update)
+    conn.commit()
     conn.close()
     return 'Aluno atualizado!'
+
+def deletar_perfil(alvo):
+    """Deleta perfis da tabela."""
+    conn = sqlite3.connect('teste.db')
+    cursor = conn.cursor()
+    item_a_deletar = (alvo,)
+    cursor.execute('DELETE FROM aluno WHERE nome = ?', item_a_deletar)
+    conn.commit()
+    conn.close()
+    return 'Perfil deletado!'

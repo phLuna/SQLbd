@@ -1,30 +1,32 @@
+from fastapi import FastAPI
+import uvicorn
 import utills
 
+app = FastAPI()
 
-print('Criar/Atualizar/Ler/Excluir')
-operar = input('bem vindo! O que deseja fazer no momento? ').upper()
-if operar == 'CRIAR':
-    nome = input('Insira o nome: ').title()
-    nascimento = int(input('Agora, a data de nascimento: '))
-    faixa = input('Por último, a faixa: ').capitalize()
+@app.get("/consultar_todos")
+def consultar_cadastros():
+    alunos = utills.listar_alunos()
+    return {'Cadastros': alunos}
+
+@app.post("/items/")
+def criar_perfil(nome: str, nascimento: int, faixa: str):
     utills.create_aluno(nome, nascimento, faixa)
-    print('Aluno criado! ')
-elif operar == 'ATUALIZAR':
-    operar = input('O que deseja atualizar? [Nome/Nascimento/Faixa]').upper()
-    alvo = int(input('De que índice? '))
-    utills.atualizar_perfil(operar, alvo)
-    print('Atualizado!')
-elif operar == 'LER':
-    print('Todos/Faixa')
-    operar = input('Deseja filtrar? Mostrar... ').upper()
-    if operar == 'TODOS':
-        alunos = utills.listar_alunos()
-        for i in alunos:
-            print(i)
-    elif operar == 'FAIXA':
-        filtro = input('Qual? ')
-        perfis = utills.listar_aluno_por_faixas(filtro)
-        for perfil in perfis:
-            print(perfil)
-elif operar == 'EXCLUIR':
-    print('A')
+    return {'response': f"O perfil de {nome}, nascido em {nascimento} foi feito e salvo com sucesso!"}
+
+@app.patch("/items/")
+def atualizar_item(item: str, nome: str):
+    return {'response': f"Este é meu item, {nome}, {item}"}
+
+@app.put("/items/")
+def atualizar_completamente(item: str, nome: str):
+    return {'response': f"Este é meu item, {nome}, {item}"}
+
+@app.delete("/items/")
+def deletar_perfil(item: str, nome: str):
+    return {'response': f"Este é meu item, {nome}, {item}"}
+
+if __name__ == '__main__':
+    uvicorn.run(app)
+
+#Rest: get (consultas), post (cadastro), pacht/put (atualizar), delete(deletar)

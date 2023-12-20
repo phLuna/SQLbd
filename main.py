@@ -9,23 +9,20 @@ def consultar_cadastros():
     alunos = utills.listar_alunos()
     return {'Cadastros': alunos}
 
-@app.post("/items/")
+@app.post("/criar_perfil")
 def criar_perfil(nome: str, nascimento: int, faixa: str):
     utills.create_aluno(nome, nascimento, faixa)
     return {'response': f"O perfil de {nome}, nascido em {nascimento} foi feito e salvo com sucesso!"}
 
-@app.patch("/items/")
-def atualizar_item(item: str, nome: str):
-    return {'response': f"Este é meu item, {nome}, {item}"}
+@app.patch("/atualizar")
+def atualizar_item(alvo, info, update):
+    utills.atualizar_perfil(alvo, update, info)
+    return {'response': f"O item foi atualizado!"}
 
-@app.put("/items/")
-def atualizar_completamente(item: str, nome: str):
-    return {'response': f"Este é meu item, {nome}, {item}"}
-
-@app.delete("/items/")
+@app.delete("/deletar")
 def deletar_perfil(alvo):
     utills.deletar_perfil(alvo)
-    return {'response': f"O cuja PK é {alvo} foi deletado com sucesso!"}
+    return {'response': f"O alvo cuja PK é {alvo} foi deletado com sucesso!"}
 
 if __name__ == '__main__':
     uvicorn.run(app)

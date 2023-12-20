@@ -22,22 +22,16 @@ def listar_alunos() -> list:
     conn.close()
     return resultados
 
-def listar_aluno_por_faixas(faixa: str) -> list:
-    """Esta função retorna perfis, filtrados por suas faixas."""
-    cursor, conn = abrir_conexao_db()
-    cursor.execute(f'SELECT * FROM aluno WHERE belt = {faixa}')
-    resultados = cursor.fetchall()
-    conn.close()
-    return resultados
-
-def atualizar_perfil(operar, alvo):
-    """Esta função atualiza informações de perfis existentes."""
+def atualizar_perfil(alvo, update, info):
+    """Esta função atualiza informações de perfis existentes."""0
     conn = sqlite3.connect('teste.db')
     cursor = conn.cursor()
-    if operar == 'NOME':
-        nome_update = input('Insira o novo nome: ').title()
-        update = alvo, nome_update
-        cursor.execute(f'UPDATE aluno SET name = ? WHERE pk = ?', update)
+    if info == 'NOME':
+        cursor.execute(f'UPDATE aluno SET name = ? WHERE pk = ?', update, alvo)
+    if info == 'NASCIMENTO':
+        cursor.execute(f'UPDATE aluno SET data_birth = ? WHERE pk = ?', update, alvo)
+    if info == 'FAIXA':
+        cursor.execute(f'UPDATE aluno SET belt = ? WHERE pk = ?', update, alvo)
     conn.commit()
     conn.close()
     return 'Aluno atualizado!'

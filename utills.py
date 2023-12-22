@@ -23,15 +23,15 @@ def listar_alunos() -> list:
     return resultados
 
 def atualizar_perfil(alvo, update, info):
-    """Esta função atualiza informações de perfis existentes."""0
+    """Esta função atualiza informações de perfis existentes."""
     conn = sqlite3.connect('teste.db')
     cursor = conn.cursor()
     if info == 'NOME':
-        cursor.execute(f'UPDATE aluno SET name = ? WHERE pk = ?', update, alvo)
+        cursor.execute(f'UPDATE aluno SET name = {update} WHERE pk = {alvo}')
     if info == 'NASCIMENTO':
-        cursor.execute(f'UPDATE aluno SET data_birth = ? WHERE pk = ?', update, alvo)
+        cursor.execute(f'UPDATE aluno SET data_birth = {update} WHERE pk = {alvo}')
     if info == 'FAIXA':
-        cursor.execute(f'UPDATE aluno SET belt = ? WHERE pk = ?', update, alvo)
+        cursor.execute(f'UPDATE aluno SET belt = "{update}" WHERE pk = {alvo}')
     conn.commit()
     conn.close()
     return 'Aluno atualizado!'
